@@ -1,2 +1,1 @@
-# crimeewave.github.io
-fake RAT site.
+Нажмите "Crimewave" для скачивания Hotline Miami 2
