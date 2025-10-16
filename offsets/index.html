@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Offsets2JSON</title>
+    <title>Анимированный прямоугольник</title>
     <style>
         * {
             margin: 0;
@@ -16,15 +16,20 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-end;
             background: linear-gradient(135deg, #ff7e5f, #8e44ad);
             overflow: hidden;
             position: relative;
+            padding-bottom: 50px;
         }
         
         .container {
             text-align: center;
             z-index: 10;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
         h1 {
@@ -39,12 +44,14 @@
             border-radius: 20px;
             padding: 30px 50px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transform: scale(0);
+            transform: translateY(100px);
             opacity: 0;
-            animation: popIn 1s ease-out forwards;
+            animation: slideUp 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             animation-delay: 0.5s;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.3);
+            max-width: 500px;
+            width: 90%;
         }
         
         .message {
@@ -64,17 +71,17 @@
             font-weight: bold;
         }
         
-        @keyframes popIn {
+        @keyframes slideUp {
             0% {
-                transform: scale(0);
+                transform: translateY(100px);
                 opacity: 0;
             }
             70% {
-                transform: scale(1.1);
-                opacity: 0.8;
+                transform: translateY(-10px);
+                opacity: 0.9;
             }
             100% {
-                transform: scale(1);
+                transform: translateY(0);
                 opacity: 1;
             }
         }
@@ -156,6 +163,23 @@
                 transform: scale(1);
             }
         }
+        
+        .refresh-btn {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .refresh-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -170,19 +194,10 @@
         <h1>Error!</h1>
         <div class="animated-box">
             <div class="message">
-                Offsets available at
+                offsets available at
                 <div class="json-path pulse">offsets/offsets.json</div>
             </div>
         </div>
-    </div>
 
-    <script>
-        document.querySelector('.animated-box').addEventListener('click', function() {
-            this.style.animation = 'none';
-            setTimeout(() => {
-                this.style.animation = 'popIn 0.8s ease-out forwards';
-            }, 10);
-        });
-    </script>
 </body>
 </html>
