@@ -155,11 +155,14 @@
             border: 1px solid rgba(0, 255, 136, 0.2);
             animation: fadeIn 0.8s ease-out;
             animation-fill-mode: both;
+            position: relative;
+            overflow: hidden;
         }
 
         .link:nth-child(1) { animation-delay: 0.8s; }
         .link:nth-child(2) { animation-delay: 1.0s; }
         .link:nth-child(3) { animation-delay: 1.2s; }
+        .link:nth-child(4) { animation-delay: 1.4s; }
 
         @keyframes fadeIn {
             from {
@@ -178,10 +181,27 @@
             box-shadow: 0 5px 15px rgba(0, 255, 136, 0.2);
         }
 
+        .link:hover i {
+            animation: iconBounce 0.6s ease;
+        }
+
+        @keyframes iconBounce {
+            0%, 20%, 60%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-5px);
+            }
+            80% {
+                transform: translateY(-2px);
+            }
+        }
+
         .link i {
             color: #00ff88;
             font-size: 1.2rem;
             width: 20px;
+            transition: all 0.3s ease;
         }
 
         .link-text {
@@ -221,6 +241,20 @@
             0% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); }
             70% { box-shadow: 0 0 0 6px rgba(0, 255, 136, 0); }
             100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
+        }
+
+        .project-badge {
+            background: rgba(0, 204, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: 8px;
+            animation: badgePulse 3s infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
         }
     </style>
 </head>
@@ -273,16 +307,17 @@
                 <div class="link-text">GitHub: crimeewave</div>
             </a>
 
-                        <a href="https://github.com/crimeewave/NOPDump" class="link" target="_blank">
-                <i class="fab fa-roblox"></i>
-                <div class="link-text">Roblox Offsets Dumper: NOPDump</div>
+            <a href="https://github.com/crimeewave/NOPDump" class="link" target="_blank">
+                <i class="fas fa-tools"></i>
+                <div class="link-text">
+                    NOPDump
+                    <span class="project-badge">Roblox Offsets</span>
+                </div>
             </a>
-            
         </div>
     </div>
 
     <script>
-        
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.querySelector('.bio-container');
             
@@ -308,6 +343,48 @@
             }
             
             setTimeout(typeWriter, 500);
+
+            // Add ripple effect to links
+            const links = document.querySelectorAll('.link');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        border-radius: 50%;
+                        background: rgba(0, 255, 136, 0.6);
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                    `;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+
+            // Add CSS for ripple animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes ripple {
+                    to {
+                        transform: scale(4);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
         });
     </script>
 </body>
